@@ -1,18 +1,16 @@
 #!/bin/bash
 
 FILENAME=$1
-
-ffmpeg -vaapi_device /dev/dri/card0 \
-    -hwaccel vaapi \
-    -hwaccel_output_format vaapi \
-    -i /src/$FILENAME \
-    -vf 'format=nv12|vaapi,hwupload,scale_vaapi=w=1280:h=720' \
-    -level 41 \
-    -c:v h264_vaapi \
-    -aspect 16:9 \
-    -qp 23 \
-    -c:a copy \
-    -movflags faststart \
-    -vsync 1 \
-    /dst/$FILENAME.mp4
-    
+/usr/local/ffmpeg/bin/ffmpeg -y \
+  -nostdin \
+  -hwaccel qsv \
+  -vcodec mpeg2_qsv \
+  -i /src/$FILENAME \
+  -vcodec h264_qsv \
+  -preset medium \
+  -tune film \
+  -vb 4M \
+  -vf deinterlace_qsv,scale_qsv=1280:720 \
+  -acodec copy \
+  -threads 0 \
+  /dst/$FILENAME
