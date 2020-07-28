@@ -12,7 +12,7 @@ while true; do
   if [[ "`dirname $FILENAME`" != "." ]]; then
     mkdir -p $DST/`dirname $FILENAME`
   fi
-  encode $SRC/$FILENAME $DST/$FILENAME.mp4
+  encode "$SRC/$FILENAME" "$DST/$FILENAME.mp4"
   sleep 10
 done
 
