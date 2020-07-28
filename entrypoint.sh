@@ -4,7 +4,7 @@ SRC=$1
 DST=$2
 cd $SRC
 while true; do
-  FILENAME=`find . -type f |grep -v "$DST" |head -1 |tail -1`
+  FILENAME=`find . -type f |grep -v "noenc" |head -1 |tail -1`
   if [[ "`dirname $FILENAME`" != "." ]]; then
     mkdir -p $DST/`dirname $FILENAME`
   fi
