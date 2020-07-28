@@ -1,16 +1,16 @@
 #!/bin/bash
-
 FILENAME=$1
-/usr/local/ffmpeg/bin/ffmpeg -y \
+ffmpeg -y \
+  -init_hw_device vaapi=foo:/dev/dri/card0 \
   -nostdin \
-  -hwaccel qsv \
-  -vcodec mpeg2_qsv \
+  -hwaccel vaapi \
+  -hwaccel_output_format vaapi \
   -i /src/$FILENAME \
-  -vcodec h264_qsv \
   -preset medium \
-  -tune film \
-  -vb 4M \
-  -vf deinterlace_qsv,scale_qsv=1280:720 \
+  -vf 'deinterlace_vaapi,scale_vaapi=w=1280:h=720,hwdownload,format=nv12' \
+  -vc h264_vaapi \
+  -vb 5M \
+  -maxrate 5M \
   -acodec copy \
   -threads 0 \
-  /dst/$FILENAME
+  /dst/$FILENAME.mp4
