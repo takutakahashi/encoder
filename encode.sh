@@ -8,7 +8,7 @@ ffmpeg -y \
   -hwaccel_output_format vaapi \
   -i "$SRC" \
   -vf 'format=nv12|vaapi,scale_vaapi=w=1280:h=720' \
-  -b:v 7M -maxrate 7M \
+  -b:v 5M -maxrate 5M \
   -c:v h264_vaapi -aspect 16:9 \
   -c:a copy \
   -bsf:a aac_adtstoasc \
